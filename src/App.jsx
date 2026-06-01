@@ -44,9 +44,9 @@ const Portfolio = () => {
       id: 1,
       title: "Fetal Monitoring AI",
       org: "Research Intern · Monash Institute of Medical Engineering, Monash University",
-      period: "Jun 2025 – Jan 2026",
+      period: "Jun 2025 - Jan 2026",
       short: "22M-parameter time-series model achieving ~80% classification accuracy on a 70GB+ fetal healthcare dataset",
-      full: "Research internship at Monash Institute of Medical Engineering (Jun 2025 – Jan 2026), supervised by Dr. Faezeh Marzbanrad, Deputy Head of Electrical & Computer Systems Engineering. Owned end-to-end model development within a 4-person cross-disciplinary team, building and training a 22-million-parameter time-series classification model on a 70GB+ fetal healthcare dataset using Monash's High Performance Computing infrastructure. Engineered a preprocessing pipeline that segmented raw time-series signals into 4-minute chunks using a WNet architecture, enabling ~80% classification accuracy. Delivered a validated model that directly unblocked the ongoing research program after prior methodologies had produced no promising results.",
+      full: "Research internship at Monash Institute of Medical Engineering (Jun 2025 - Jan 2026), supervised by Dr. Faezeh Marzbanrad, Deputy Head of Electrical & Computer Systems Engineering. Owned end-to-end model development within a 4-person cross-disciplinary team, building and training a 22-million-parameter time-series classification model on a 70GB+ fetal healthcare dataset using Monash's High Performance Computing infrastructure. Engineered a preprocessing pipeline that segmented raw time-series signals into 4-minute chunks using a WNet architecture, enabling ~80% classification accuracy. Delivered a validated model that directly unblocked the ongoing research program after prior methodologies had produced no promising results.",
       tags: ["Healthcare AI", "Deep Learning", "HPC", "Time-Series"],
       link: null,
       images: ["/images/Fetal_1.png", "/images/fetal_2.jpg"]
@@ -55,9 +55,9 @@ const Portfolio = () => {
       id: 2,
       title: "NLP: Recipe Generation & RAG Menu Planning",
       org: "Master of Artificial Intelligence, Monash University",
-      period: "Apr 2026 – Jun 2026",
+      period: "Apr 2026 - Jun 2026",
       short: "End-to-end NLP capstone — seq2seq models, LoRA fine-tuning, and a RAG pipeline over 165K recipes",
-      full: "Designed and implemented a comprehensive NLP capstone project (Apr–Jun 2026) spanning three interconnected tasks. Built an RNN encoder-decoder from scratch with Bahdanau attention in PyTorch, then fine-tuned T5-small and GPT-2 using LoRA across three rank configurations. Engineered a RAG pipeline with BM25 retrieval over 165K recipes, integrated the Groq LLM API via LangChain, and designed an LLM-as-Judge evaluation framework scoring constraint satisfaction, ingredient faithfulness, culinary logic, and bias. Improved BLEU-4 by 28% over baseline (0.0397 → 0.0566) and achieved METEOR 0.2401.",
+      full: "Designed and implemented a comprehensive NLP capstone project (Apr-Jun 2026) spanning three interconnected tasks. Built an RNN encoder-decoder from scratch with Bahdanau attention in PyTorch, then fine-tuned T5-small and GPT-2 using LoRA across three rank configurations. Engineered a RAG pipeline with BM25 retrieval over 165K recipes, integrated the Groq LLM API via LangChain, and designed an LLM-as-Judge evaluation framework scoring constraint satisfaction, ingredient faithfulness, culinary logic, and bias. Improved BLEU-4 by 28% over baseline (0.0397 → 0.0566) and achieved METEOR 0.2401.",
       tags: ["NLP", "RAG", "PyTorch", "HuggingFace", "LoRA", "LangChain"],
       link: null,
       images: [
@@ -74,9 +74,9 @@ const Portfolio = () => {
       id: 3,
       title: "Active Ageing Platform",
       org: "Master of Artificial Intelligence, Monash University",
-      period: "Mar 2026 – Jun 2026",
+      period: "Mar 2026 - Jun 2026",
       short: "Monash Expo award-winning digital inclusion platform for senior citizens",
-      full: "Led a cross-disciplinary team of 4 as Lead Developer for a Monash University Final Year Capstone (Mar–Jun 2026). Built a digital inclusion platform addressing loneliness and sedentary behaviour in senior citizens, aligned with UN SDG 10 (Reduced Inequalities). Architected the full backend infrastructure and frontend–backend integration using Node.js, Vue.js, and MySQL, enabling AI-powered pose estimation exercise guidance, community event discovery, and location-based walking route planning with peer invitation. Won the University Expo award at Monash level. Validated product–market fit through 30+ usability testing sessions with real senior users.",
+      full: "Led a cross-disciplinary team of 4 as Lead Developer for a Monash University Final Year Capstone (Mar-Jun 2026). Built a digital inclusion platform addressing loneliness and sedentary behaviour in senior citizens, aligned with UN SDG 10 (Reduced Inequalities). Architected the full backend infrastructure and frontend-backend integration using Node.js, Vue.js, and MySQL, enabling AI-powered pose estimation exercise guidance, community event discovery, and location-based walking route planning with peer invitation. Won the University Expo award at Monash level. Validated product-market fit through 30+ usability testing sessions with real senior users.",
       tags: ["Vue.js", "Node.js", "MySQL", "Full-Stack", "Healthcare"],
       link: "https://activeageing.vercel.app/",
       images: [
@@ -95,9 +95,9 @@ const Portfolio = () => {
       id: 4,
       title: "BusMate — iOS Attendance App",
       org: "Freelancing",
-      period: "Jan 2026 – Mar 2026",
+      period: "Jan 2026 - Mar 2026",
       short: "Native iOS app live on the Apple App Store — cut bus attendance reporting from 5 minutes to under 1 second",
-      full: "Independently designed, built, and shipped a native iOS app to the Apple App Store within 2.5 months (Jan–Mar 2026), solving a real operational pain point identified through direct conversations with private school bus drivers who relied on pen-and-paper attendance. Designed the UI specifically for users aged 60+, prioritising simplicity and zero-confusion adoption. Currently in active pilot with real clients who have provided positive feedback and feature requests ahead of a commercial sale. Reduced attendance reporting time from 5 minutes to under 1 second per bus cycle, replacing a manual process for drivers across Victoria.",
+      full: "Independently designed, built, and shipped a native iOS app to the Apple App Store within 2.5 months (Jan-Mar 2026), solving a real operational pain point identified through direct conversations with private school bus drivers who relied on pen-and-paper attendance. Designed the UI specifically for users aged 60+, prioritising simplicity and zero-confusion adoption. Currently in active pilot with real clients who have provided positive feedback and feature requests ahead of a commercial sale. Reduced attendance reporting time from 5 minutes to under 1 second per bus cycle, replacing a manual process for drivers across Victoria.",
       tags: ["Swift", "iOS", "App Store", "UX"],
       link: "https://tinyurl.com/BusmateApp",
       images: [
@@ -117,9 +117,9 @@ const Portfolio = () => {
       id: 5,
       title: "Web-based CAPTCHA",
       org: "External Research Collaborator · SPRITZ Research Group, Italy",
-      period: "Jan 2024 – Jun 2024",
+      period: "Jan 2024 - Jun 2024",
       short: "Web-based CAPTCHA solution for retail marketing — SPRITZ Research Group, University of Padua, Italy",
-      full: "Designed and implemented a web-based CAPTCHA solution as a Cybersecurity Research Collaborator with the SPRITZ Research Group, University of Padua, Italy (Jan–Jun 2024). Addressed security requirements for retail marketing applications, balancing user experience with fraud prevention. Built using HTML/CSS and PHP.",
+      full: "Designed and implemented a web-based CAPTCHA solution as a Cybersecurity Research Collaborator with the SPRITZ Research Group, University of Padua, Italy (Jan-Jun 2024). Addressed security requirements for retail marketing applications, balancing user experience with fraud prevention. Built using HTML/CSS and PHP.",
       tags: ["Security", "PHP", "HTML/CSS", "Research"],
       link: null,
       images: [
@@ -137,10 +137,10 @@ const Portfolio = () => {
       title: "Supervisor",
       company: "Priceline Pharmacy, Westfield Knox",
       companyUrl: "https://www.westfield.com.au/knox/store/2rAwIgUfUYcqC4GwiMC242/priceline-pharmacy",
-      period: "Sep. 2024 – Present",
+      period: "Sep. 2024 - Present",
       notes: [],
       bullets: [
-        "Promoted within 12 months to supervise a 7,500 sq ft flagship pharmacy, managing shifts of 6–10 staff across a 20–25 person team, including frequent sole-charge operations.",
+        "Promoted within 12 months to supervise a 7,500 sq ft flagship pharmacy, managing shifts of 6-10 staff across a 20-25 person team, including frequent sole-charge operations.",
         "Identified a click-and-collect inefficiency and proposed a process change to head office — cutting customer wait time from 10 minutes to under 3 minutes.",
         "Coached 5+ team members across customer service, cash handling, and store operations, tailoring leadership to individual strengths and improving satisfaction scores."
       ],
@@ -151,7 +151,7 @@ const Portfolio = () => {
       title: "Research Intern",
       company: "Monash Institute of Medical Engineering",
       companyUrl: "https://www.monash.edu/mime",
-      period: "Jun. 2025 – Jan. 2026",
+      period: "Jun. 2025 - Jan. 2026",
       notes: [
         {
           prefix: "Supervised by ",
@@ -172,7 +172,7 @@ const Portfolio = () => {
       title: "Cybersecurity Research Collaborator",
       company: "SPRITZ Research Group, Italy",
       companyUrl: "https://spritz.math.unipd.it",
-      period: "Jan. 2024 – Jun. 2024",
+      period: "Jan. 2024 - Jun. 2024",
       notes: [
         {
           prefix: "Supervised by ",
@@ -341,7 +341,7 @@ const Portfolio = () => {
                   <h3 style={styles.educationTitle}>Master of Artificial Intelligence</h3>
                   <p style={styles.educationInstitution}>Monash University, Melbourne, Australia</p>
                 </div>
-                <span style={styles.educationYear}>2024 – 2026 · Distinction</span>
+                <span style={styles.educationYear}>2024 - 2026 · Distinction</span>
               </div>
               <a href="https://drive.google.com/file/d/13widey1QYaGZzIBLEcUdu3OZ-hQWYEoE/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={styles.certLink}>
                 <ExternalLink size={16} /> View Academic Transcript
@@ -353,7 +353,7 @@ const Portfolio = () => {
                   <h3 style={styles.educationTitle}>Bachelor of Computer Science</h3>
                   <p style={styles.educationInstitution}>Christ University, Bengaluru, India</p>
                 </div>
-                <span style={styles.educationYear}>2020 – 2024 · Distinction</span>
+                <span style={styles.educationYear}>2020 - 2024 · Distinction</span>
               </div>
               <a href="https://drive.google.com/file/d/19CsgmDnl1fE0Ow_1PY0UOEgCMQz8LGPe/view?usp=share_link" target="_blank" rel="noopener noreferrer" style={styles.certLink}>
                 <ExternalLink size={16} /> View Certificate
@@ -370,10 +370,12 @@ const Portfolio = () => {
           <div style={styles.certGrid}>
             {[...mainCerts, ...moreCerts].map((cert) => (
               <div key={cert.name} style={styles.certCard}>
-                <p style={styles.certName}>{cert.name}</p>
-                <p style={styles.certIssuer}>{cert.issuer}</p>
-                <p style={styles.certDate}>{cert.date}</p>
-                {cert.skills && <p style={{...styles.certIssuer, color: '#777'}}>Skills: {cert.skills}</p>}
+                <div style={styles.certCardTop}>
+                  <p style={styles.certName}>{cert.name}</p>
+                  <p style={styles.certIssuer}>{cert.issuer}</p>
+                  <p style={styles.certDate}>{cert.date}</p>
+                  {cert.skills && <p style={{...styles.certIssuer, color: '#777'}}>Skills: {cert.skills}</p>}
+                </div>
                 {cert.credentialUrl && (
                   <a href={cert.credentialUrl} target="_blank" rel="noopener noreferrer" style={styles.certLink}>
                     <ExternalLink size={15} /> View Credential
@@ -446,12 +448,13 @@ const Portfolio = () => {
                 <div style={styles.projectContent}>
                   <h3 style={styles.projectTitle}>{project.title}</h3>
                   <p style={styles.projectOrg}>{project.org}</p>
+                  <p style={styles.cardPeriod}>{project.period}</p>
                   <p style={styles.projectDescription}>{project.short}</p>
                   <div style={styles.tagsContainer}>
                     {project.tags.map((tag) => <span key={tag} style={styles.tag}>{tag}</span>)}
                   </div>
                   <div style={styles.cardFooter}>
-                    <span style={styles.cardPeriod}>{project.period}</span>
+                    <span style={styles.viewMoreLabel}>View More →</span>
                   </div>
                 </div>
               </div>
@@ -676,7 +679,8 @@ const styles = {
   educationYear: { fontSize: '1.5rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
 
   certGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' },
-  certCard: { backgroundColor: '#fff', padding: '1.25rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(11,13,99,0.1)', transition: 'box-shadow 0.3s' },
+  certCard: { backgroundColor: '#fff', padding: '1.25rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(11,13,99,0.1)', transition: 'box-shadow 0.3s', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' },
+  certCardTop: { flex: 1 },
   certCardModal: { backgroundColor: '#f8faff', padding: '1rem 1.25rem', borderRadius: '8px', border: '1px solid #dbeafe' },
   certName: { margin: 0, fontWeight: '700', color: '#0B0D63', fontSize: '1.5rem' },
   certIssuer: { margin: '0.3rem 0 0', fontSize: '1.2rem', color: '#3b82f6', fontWeight: '600' },
@@ -697,17 +701,18 @@ const styles = {
   experienceTechStack: { marginTop: '0.75rem', marginBottom: '0.5rem', fontSize: '1.2rem', color: '#444' },
 
   projectsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' },
-  projectCard: { backgroundColor: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(11,13,99,0.1)', transition: 'transform 0.3s, box-shadow 0.3s', cursor: 'pointer' },
+  projectCard: { backgroundColor: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(11,13,99,0.1)', transition: 'transform 0.3s, box-shadow 0.3s', cursor: 'pointer', display: 'flex', flexDirection: 'column' },
   projectImageBox: { height: '220px', backgroundColor: '#f0f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   projectMediaContain: { maxWidth: '100%', maxHeight: '220px', objectFit: 'contain', display: 'block' },
-  projectContent: { padding: '1.5rem' },
+  projectContent: { padding: '1.5rem', display: 'flex', flexDirection: 'column', flex: 1 },
   projectTitle: { fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.25rem', color: '#0B0D63' },
   projectOrg: { fontSize: '1.2rem', fontWeight: '700', color: '#3b82f6', marginBottom: '0.6rem', marginTop: 0 },
   projectDescription: { color: '#666', marginBottom: '1rem', fontSize: '1.2rem' },
   tagsContainer: { display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' },
   tag: { fontSize: '0.85rem', background: 'linear-gradient(to right, #dbeafe, #bfdbfe)', color: '#1e40af', padding: '0.25rem 0.75rem', borderRadius: '9999px' },
-  cardFooter: { display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' },
-  cardPeriod: { fontSize: '1.5rem', color: '#0B0D63', fontWeight: '700' },
+  cardFooter: { display: 'flex', justifyContent: 'flex-end', marginTop: 'auto', paddingTop: '0.75rem' },
+  viewMoreLabel: { fontSize: '1rem', color: '#3b82f6', fontWeight: '700', cursor: 'pointer' },
+  cardPeriod: { fontSize: '1rem', color: '#777', fontWeight: '400', margin: '0.1rem 0 0.75rem', fontStyle: 'italic' },
 
   skillsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' },
   skillCard: { backgroundColor: '#fff', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 12px rgba(11,13,99,0.1)' },
