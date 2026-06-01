@@ -199,8 +199,8 @@ const Portfolio = () => {
 
   const mainCerts = [
     { name: "IBM RAG and Agentic AI", issuer: "IBM (Coursera)", date: "In Progress", credentialUrl: null },
-    { name: "Vector Databases for RAG", issuer: "IBM (Coursera)", date: "May 2026 · 92.85%", credentialUrl: "https://www.coursera.org/account/accomplishments/verify/BRA96GVJZPYY" },
-    { name: "Build RAG Applications", issuer: "IBM (Coursera)", date: "Apr. 2026 · 95.23%", credentialUrl: "https://www.coursera.org/account/accomplishments/verify/47DL7WORJE9K" },
+    { name: "Vector Databases for RAG", issuer: "IBM (Coursera)", date: "May 2026", credentialUrl: "https://www.coursera.org/account/accomplishments/verify/BRA96GVJZPYY" },
+    { name: "Build RAG Applications", issuer: "IBM (Coursera)", date: "Apr. 2026", credentialUrl: "https://www.coursera.org/account/accomplishments/verify/47DL7WORJE9K" },
     { name: "Google Prompting Essentials", issuer: "Google (Coursera)", date: "Feb. 2026", credentialUrl: "https://www.coursera.org/account/accomplishments/specialization/certificate/9YWBR7D6YJBD" },
     { name: "Responsible Artificial Intelligence", issuer: "TAFE NSW", date: "Jan. 2025", credentialUrl: "https://drive.google.com/file/d/1viqzL1DGrOKzmauF02eKE-p9qpVXintc/view?usp=share_link" }
   ];
