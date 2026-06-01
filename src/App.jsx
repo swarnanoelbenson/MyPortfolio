@@ -712,7 +712,7 @@ const styles = {
   tag: { fontSize: '0.85rem', background: 'linear-gradient(to right, #dbeafe, #bfdbfe)', color: '#1e40af', padding: '0.25rem 0.75rem', borderRadius: '9999px' },
   cardFooter: { display: 'flex', justifyContent: 'flex-end', marginTop: 'auto', paddingTop: '0.75rem' },
   viewMoreLabel: { fontSize: '1rem', color: '#3b82f6', fontWeight: '700', cursor: 'pointer' },
-  cardPeriod: { fontSize: '1rem', color: '#777', fontWeight: '400', margin: '0.1rem 0 0.75rem', fontStyle: 'italic' },
+  cardPeriod: { fontSize: '1rem', color: '#555', fontWeight: '700', margin: '0.1rem 0 0.75rem' },
 
   skillsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' },
   skillCard: { backgroundColor: '#fff', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 12px rgba(11,13,99,0.1)' },
