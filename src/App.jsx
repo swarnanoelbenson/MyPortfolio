@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Linkedin, MapPin, X, ExternalLink, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
+import { Mail, Linkedin, MapPin, X, ExternalLink, ChevronLeft, ChevronRight, Maximize2, Menu } from 'lucide-react';
 import emailjs from '@emailjs/browser';
 
 const isVideo = (src) => /\.(mp4|webm|mov)$/i.test(src);
@@ -12,6 +12,7 @@ const Portfolio = () => {
   const [modalImageIndex, setModalImageIndex] = useState(0);
   const [showMoreCerts, setShowMoreCerts] = useState(false);
   const [fullscreenMedia, setFullscreenMedia] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState('');
 
@@ -33,7 +34,7 @@ const Portfolio = () => {
 
   // Close fullscreen on Escape
   useEffect(() => {
-    const onKey = (e) => { if (e.key === 'Escape') setFullscreenMedia(null); };
+    const onKey = (e) => { if (e.key === 'Escape') { setFullscreenMedia(null); setSidebarOpen(false); } };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
   }, []);
@@ -264,13 +265,40 @@ const Portfolio = () => {
       <nav style={{...styles.nav, ...(scrolled ? styles.navScrolled : {})}}>
         <div style={styles.navContainer}>
           <div style={styles.logo}>NOEL BENSON SWARNA</div>
-          <div style={styles.navLinks}>
+          <div className="nav-links-desktop" style={styles.navLinks}>
             {['Home', 'About', 'Education', 'Certifications', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
               <button key={item} onClick={() => scrollToSection(item.toLowerCase())} style={styles.navLink}>{item}</button>
             ))}
           </div>
+          <button className="hamburger-btn" onClick={() => setSidebarOpen(true)} style={styles.hamburgerBtn}>
+            <Menu size={28} />
+          </button>
         </div>
       </nav>
+
+      {/* Mobile Sidebar Overlay */}
+      {sidebarOpen && (
+        <div style={styles.sidebarOverlay} onClick={() => setSidebarOpen(false)} />
+      )}
+
+      {/* Mobile Sidebar */}
+      <div style={{...styles.sidebar, transform: sidebarOpen ? 'translateX(0)' : 'translateX(100%)'}}>
+        <button onClick={() => setSidebarOpen(false)} style={styles.sidebarClose}>
+          <X size={28} />
+        </button>
+        <div style={styles.sidebarLogo}>Noel AI</div>
+        <nav style={styles.sidebarNav}>
+          {['Home', 'About', 'Education', 'Certifications', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
+            <button
+              key={item}
+              onClick={() => { scrollToSection(item.toLowerCase()); setSidebarOpen(false); }}
+              style={styles.sidebarLink}
+            >
+              {item}
+            </button>
+          ))}
+        </nav>
+      </div>
 
       {/* Hero */}
       <section id="home" style={styles.hero}>
@@ -724,7 +752,14 @@ const styles = {
   modalText: { color: '#555', fontSize: '1.2rem', lineHeight: '1.75', marginTop: '1.5rem' },
   modalLink: { display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.5rem', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '1.25rem' },
 
-  fullscreenOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out' },
+  hamburgerBtn: { display: 'none', background: 'none', border: 'none', color: '#fff', cursor: 'pointer', padding: '0.25rem', alignItems: 'center', justifyContent: 'center' },
+  sidebarOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 1500, backdropFilter: 'blur(2px)' },
+  sidebar: { position: 'fixed', top: 0, right: 0, width: '280px', height: '100vh', background: 'linear-gradient(180deg, #0B0D63, #1a1f8f)', zIndex: 1600, transition: 'transform 0.3s ease', padding: '2rem 1.5rem', display: 'flex', flexDirection: 'column', boxShadow: '-4px 0 20px rgba(0,0,0,0.3)' },
+  sidebarClose: { alignSelf: 'flex-end', background: 'none', border: 'none', color: '#e0e7ff', cursor: 'pointer', padding: '0.25rem', marginBottom: '1rem' },
+  sidebarLogo: { fontSize: '1.5rem', fontWeight: 'bold', color: '#fff', marginBottom: '2rem', paddingBottom: '1rem', borderBottom: '1px solid rgba(255,255,255,0.2)' },
+  sidebarNav: { display: 'flex', flexDirection: 'column', gap: '0.25rem' },
+  sidebarLink: { background: 'none', border: 'none', color: '#e0e7ff', cursor: 'pointer', fontSize: '1.2rem', fontWeight: '700', textAlign: 'left', padding: '0.85rem 1rem', borderRadius: '8px', transition: 'background 0.2s, color 0.2s' },
+    fullscreenOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out' },
   fullscreenMedia: { maxWidth: '95vw', maxHeight: '95vh', objectFit: 'contain', display: 'block' },
   fullscreenClose: { position: 'absolute', top: '1rem', right: '1rem', background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', zIndex: 10 },
 };
@@ -736,6 +771,14 @@ styleSheet.textContent = `
   @keyframes floatDelayed { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-20px,20px) scale(1.1); } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
+  @media (max-width: 768px) {
+    .nav-links-desktop { display: none !important; }
+    .hamburger-btn { display: flex !important; }
+  }
+  @media (min-width: 769px) {
+    .hamburger-btn { display: none !important; }
+    .nav-links-desktop { display: flex !important; }
+  }
 `;
 document.head.appendChild(styleSheet);
 
