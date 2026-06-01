@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Mail, Linkedin, MapPin, X, ExternalLink, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Mail, Linkedin, MapPin, X, ExternalLink, ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import emailjs from '@emailjs/browser';
+
+const isVideo = (src) => /\.(mp4|webm|mov)$/i.test(src);
 
 const Portfolio = () => {
   const [loading, setLoading] = useState(true);
@@ -9,17 +11,14 @@ const Portfolio = () => {
   const [activeModal, setActiveModal] = useState(null);
   const [modalImageIndex, setModalImageIndex] = useState(0);
   const [showMoreCerts, setShowMoreCerts] = useState(false);
+  const [fullscreenMedia, setFullscreenMedia] = useState(null);
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [formStatus, setFormStatus] = useState('');
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval);
-          setTimeout(() => setLoading(false), 500);
-          return 100;
-        }
+        if (prev >= 100) { clearInterval(interval); setTimeout(() => setLoading(false), 500); return 100; }
         return prev + 2;
       });
     }, 30);
@@ -30,6 +29,13 @@ const Portfolio = () => {
     const handleScroll = () => setScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Close fullscreen on Escape
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') setFullscreenMedia(null); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
   }, []);
 
   const projects = [
@@ -54,13 +60,13 @@ const Portfolio = () => {
       tags: ["NLP", "RAG", "PyTorch", "HuggingFace", "LoRA", "LangChain"],
       link: null,
       images: [
-        "/images/nlp_recipe.jpg",
-        "/images/NLP_with_and_without_RNNAttention.jpg",
-        "/images/NLP_LoRA_outputs.jpg",
-        "/images/NLP_RAG_outputs.jpg",
-        "/images/NLP_RAG_outputs_0.jpg",
-        "/images/NLP_simple_RAG_arch.jpg",
-        "/images/NLP_final_outputs.jpg"
+        "/images/NLP_0_image1.png",
+        "/images/NLP_1_simple_RAG_arch.jpg",
+        "/images/NLP_2_final_outputs.jpg",
+        "/images/NLP_3_with_and_without_RNNAttention.jpg",
+        "/images/NLP_4_LoRA_outputs.jpg",
+        "/images/NLP_5_RAG_outputs_0.jpg",
+        "/images/NLP_6_RAG_outputs.jpg"
       ]
     },
     {
@@ -73,12 +79,15 @@ const Portfolio = () => {
       tags: ["Vue.js", "Node.js", "MySQL", "Full-Stack", "Healthcare"],
       link: "https://activeageing.vercel.app/",
       images: [
-        "/images/ActiveAgeing_home.jpg",
-        "/images/ActiveAgeing_exercise.jpg",
-        "/images/ActiveAgeing_CommunityEvents.jpg",
-        "/images/ActiveAgeing_WellnessSnapshot.jpg",
-        "/images/ACtiveAgeing_RoutePlanning.jpg",
-        "/images/ActiveAgeing_Share_RoutePlanning.jpg"
+        "/images/ActiveAgeing_0_LiveDemo.mov",
+        "/images/ActiveAgeing_1_LiveDemo.mov",
+        "/images/ActiveAgeing_2_Expo_Winners.jpg",
+        "/images/ActiveAgeing_3_home.jpg",
+        "/images/ActiveAgeing_4_CommunityEvents.jpg",
+        "/images/ActiveAgeing_5_exercise.jpg",
+        "/images/ActiveAgeing_6_RoutePlanning.jpg",
+        "/images/ActiveAgeing_7_Share_RoutePlanning.jpg",
+        "/images/ActiveAgeing_8_WellnessSnapshot.jpg"
       ]
     },
     {
@@ -91,16 +100,16 @@ const Portfolio = () => {
       tags: ["Swift", "iOS", "App Store", "UX"],
       link: "https://tinyurl.com/BusmateApp",
       images: [
-        "/images/Busmate_Appstore.jpg",
-        "/images/Busmate_FlashPage.PNG",
-        "/images/Busmate_AccountCreation.PNG",
-        "/images/Busmate_AttendanceTaking.png",
-        "/images/Busmate_AttendaTaking.mp4",
-        "/images/Busmate_PickUp-DropOff.PNG",
-        "/images/Busmate_AddNotes.PNG",
-        "/images/Busmate_NoteTaking.mp4",
-        "/images/Busmate_FinalCheck.PNG",
-        "/images/Busmate_Review_and_FinalCheck.png"
+        "/images/Busmate_0_AttendaTaking.mp4",
+        "/images/Busmate_1_NoteTaking.mp4",
+        "/images/Busmate_2_AccountCreation.PNG",
+        "/images/Busmate_3_AddNotes.PNG",
+        "/images/Busmate_4_Appstore.jpg",
+        "/images/Busmate_5_AttendanceTaking.png",
+        "/images/Busmate_6_FinalCheck.PNG",
+        "/images/Busmate_7_FlashPage.PNG",
+        "/images/Busmate_8_PickUp-DropOff.PNG",
+        "/images/Busmate_9_Review_and_FinalCheck.png"
       ]
     },
     {
@@ -113,11 +122,11 @@ const Portfolio = () => {
       tags: ["Security", "PHP", "HTML/CSS", "Research"],
       link: null,
       images: [
-        "/images/Captcha_Frontend.jpg",
-        "/images/Captcha_Frontend_2.jpg",
-        "/images/Captcha_Backend_access.jpg",
-        "/images/Captcha_Database.jpg",
-        "/images/Captcha_illustration_video.mp4"
+        "/images/Captcha_0_illustration_video.mp4",
+        "/images/Captcha_1_Backend_access.jpg",
+        "/images/Captcha_2_Frontend.jpg",
+        "/images/Captcha_3_Frontend.jpg",
+        "/images/Captcha_4_Database.jpg"
       ]
     }
   ];
@@ -143,7 +152,12 @@ const Portfolio = () => {
       companyUrl: "https://www.monash.edu/mime",
       period: "Jun. 2025 – Jan. 2026",
       notes: [
-        { text: "Supervised by Dr. Faezeh Marzbanrad, Deputy Head, Dept. of Electrical & Computer Systems Engineering", url: "https://www.monash.edu/engineering/faezehmarzbanrad" }
+        {
+          prefix: "Supervised by ",
+          linkText: "Dr. Faezeh Marzbanrad",
+          suffix: ", Deputy Head, Dept. of Electrical & Computer Systems Engineering",
+          url: "https://www.monash.edu/engineering/faezehmarzbanrad"
+        }
       ],
       bullets: [
         "Owned end-to-end model development within a 4-person cross-disciplinary team, building and training a 22M-parameter time-series classification model on a 70GB+ fetal healthcare dataset using Monash's HPC infrastructure.",
@@ -159,7 +173,12 @@ const Portfolio = () => {
       companyUrl: "https://spritz.math.unipd.it",
       period: "Jan. 2024 – Jun. 2024",
       notes: [
-        { text: "Supervised by Shrikant Tangade, Researcher at Inria", url: "https://www.linkedin.com/in/shrikant-tangade/" }
+        {
+          prefix: "Supervised by ",
+          linkText: "Shrikant Tangade",
+          suffix: ", Researcher at Inria",
+          url: "https://www.linkedin.com/in/shrikant-tangade/"
+        }
       ],
       bullets: [
         "Designed and implemented a web-based CAPTCHA solution addressing security requirements for retail marketing applications, balancing user experience with fraud prevention."
@@ -192,20 +211,14 @@ const Portfolio = () => {
   ];
 
   const handleSubmit = () => {
-    if (!formData.name || !formData.email || !formData.message) {
-      setFormStatus('error');
-      return;
-    }
+    if (!formData.name || !formData.email || !formData.message) { setFormStatus('error'); return; }
     setFormStatus('sending');
     emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, 'template_6b4q957', {
-      cust_name: formData.name,
-      cust_email: formData.email,
-      message: formData.message,
-      to_email: 'swarnanoelbenson@gmail.com'
+      cust_name: formData.name, cust_email: formData.email,
+      message: formData.message, to_email: 'swarnanoelbenson@gmail.com'
     }, '9IMSEIKLcnE65Svq8')
     .then(() => emailjs.send('service_yskz8og', 'template_ngjkfod', {
-      cust_name: formData.name,
-      cust_email: formData.email
+      cust_name: formData.name, cust_email: formData.email
     }, '9IMSEIKLcnE65Svq8'))
     .then(() => {
       setFormStatus('success');
@@ -219,9 +232,7 @@ const Portfolio = () => {
     });
   };
 
-  const scrollToSection = (id) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const scrollToSection = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 
   if (loading) {
     return (
@@ -245,6 +256,8 @@ const Portfolio = () => {
     );
   }
 
+  const currentMedia = activeModal?.images[modalImageIndex];
+
   return (
     <div style={styles.container}>
       {/* Navigation */}
@@ -253,24 +266,18 @@ const Portfolio = () => {
           <div style={styles.logo}>Noel AI</div>
           <div style={styles.navLinks}>
             {['Home', 'About', 'Education', 'Certifications', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
-              <button
-                key={item}
-                onClick={() => scrollToSection(item.toLowerCase())}
-                style={styles.navLink}
-              >
-                {item}
-              </button>
+              <button key={item} onClick={() => scrollToSection(item.toLowerCase())} style={styles.navLink}>{item}</button>
             ))}
           </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* Hero */}
       <section id="home" style={styles.hero}>
         <div style={styles.heroGradient}></div>
         <div style={styles.heroBlobs}>
-          <div style={{...styles.blob1}}></div>
-          <div style={{...styles.blob2}}></div>
+          <div style={styles.blob1}></div>
+          <div style={styles.blob2}></div>
         </div>
         <div style={styles.heroContent}>
           <h1 style={styles.heroTitle}>NOEL BENSON SWARNA</h1>
@@ -283,7 +290,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* About Section */}
+      {/* About */}
       <section id="about" style={styles.section}>
         <div style={styles.sectionContainer}>
           <h2 style={styles.sectionTitle}>About Me</h2>
@@ -295,7 +302,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Education Section */}
+      {/* Education */}
       <section id="education" style={styles.sectionAlt}>
         <div style={styles.sectionContainer}>
           <h2 style={styles.sectionTitle}>Education</h2>
@@ -309,7 +316,7 @@ const Portfolio = () => {
                 <span style={styles.educationYear}>2024 – 2026 · Distinction</span>
               </div>
               <a href="https://drive.google.com/file/d/13widey1QYaGZzIBLEcUdu3OZ-hQWYEoE/view?usp=sharing" target="_blank" rel="noopener noreferrer" style={styles.certLink}>
-                <ExternalLink size={14} /> View Academic Transcript
+                <ExternalLink size={16} /> View Academic Transcript
               </a>
             </div>
             <div style={styles.educationCard}>
@@ -321,40 +328,38 @@ const Portfolio = () => {
                 <span style={styles.educationYear}>2020 – 2024 · Distinction</span>
               </div>
               <a href="https://drive.google.com/file/d/19CsgmDnl1fE0Ow_1PY0UOEgCMQz8LGPe/view?usp=share_link" target="_blank" rel="noopener noreferrer" style={styles.certLink}>
-                <ExternalLink size={14} /> View Certificate
+                <ExternalLink size={16} /> View Certificate
               </a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Certifications Section */}
+      {/* Certifications */}
       <section id="certifications" style={styles.section}>
         <div style={styles.sectionContainer}>
           <h2 style={styles.sectionTitle}>Certifications</h2>
           <div style={styles.certGrid}>
             {mainCerts.map((cert) => (
               <div key={cert.name} style={styles.certCard}>
-                <p style={{ margin: 0, fontWeight: '700', color: '#0B0D63' }}>{cert.name}</p>
-                <p style={{ margin: '0.25rem 0 0', fontSize: '0.875rem', color: '#555' }}>{cert.issuer}</p>
-                <p style={{ margin: '0.25rem 0 0', fontSize: '0.8rem', color: '#3b82f6' }}>{cert.date}</p>
+                <p style={styles.certName}>{cert.name}</p>
+                <p style={styles.certIssuer}>{cert.issuer}</p>
+                <p style={styles.certDate}>{cert.date}</p>
                 {cert.credentialUrl && (
                   <a href={cert.credentialUrl} target="_blank" rel="noopener noreferrer" style={styles.certLink}>
-                    <ExternalLink size={13} /> View Credential
+                    <ExternalLink size={15} /> View Credential
                   </a>
                 )}
               </div>
             ))}
           </div>
           <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <button onClick={() => setShowMoreCerts(true)} style={styles.viewMoreBtn}>
-              View More Certifications
-            </button>
+            <button onClick={() => setShowMoreCerts(true)} style={styles.viewMoreBtn}>View More Certifications</button>
           </div>
         </div>
       </section>
 
-      {/* Experience Section */}
+      {/* Experience */}
       <section id="experience" style={styles.sectionAlt}>
         <div style={styles.sectionContainer}>
           <h2 style={styles.sectionTitle}>Experience</h2>
@@ -370,9 +375,11 @@ const Portfolio = () => {
                 </a>
                 {role.notes.map((note, j) => (
                   <p key={j} style={styles.experienceNote}>
+                    {note.prefix}
                     <a href={note.url} target="_blank" rel="noopener noreferrer" style={styles.experienceNoteLink}>
-                      {note.text}
+                      {note.linkText}
                     </a>
+                    {note.suffix}
                   </p>
                 ))}
                 <ul style={styles.experienceBullets}>
@@ -381,13 +388,11 @@ const Portfolio = () => {
                   ))}
                 </ul>
                 {role.techStack && (
-                  <p style={styles.experienceTechStack}>
-                    <strong>Tech Stack:</strong> {role.techStack}
-                  </p>
+                  <p style={styles.experienceTechStack}><strong>Tech Stack:</strong> {role.techStack}</p>
                 )}
                 {role.credentialUrl && (
                   <a href={role.credentialUrl} target="_blank" rel="noopener noreferrer" style={styles.certLink}>
-                    <ExternalLink size={14} /> View Certificate
+                    <ExternalLink size={15} /> View Certificate
                   </a>
                 )}
               </div>
@@ -396,28 +401,28 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* Projects */}
       <section id="projects" style={styles.section}>
         <div style={styles.sectionContainerWide}>
           <h2 style={styles.sectionTitle}>Projects & Key Achievements</h2>
           <div style={styles.projectsGrid}>
             {projects.map((project) => (
-              <div
-                key={project.id}
-                style={styles.projectCard}
-                onClick={() => { setActiveModal(project); setModalImageIndex(0); }}
-              >
-                <div style={{...styles.projectImage, backgroundImage: `url(${project.images[0]})`}}>
-                  <div style={styles.projectImageOverlay}></div>
-                </div>
+              <div key={project.id} style={styles.projectCard} onClick={() => { setActiveModal(project); setModalImageIndex(0); }}>
+                {isVideo(project.images[0]) ? (
+                  <div style={styles.projectImageBox}>
+                    <video src={project.images[0]} muted style={styles.projectMediaContain} />
+                  </div>
+                ) : (
+                  <div style={styles.projectImageBox}>
+                    <img src={project.images[0]} alt={project.title} style={styles.projectMediaContain} />
+                  </div>
+                )}
                 <div style={styles.projectContent}>
                   <h3 style={styles.projectTitle}>{project.title}</h3>
                   <p style={styles.projectOrg}>{project.org}</p>
                   <p style={styles.projectDescription}>{project.short}</p>
                   <div style={styles.tagsContainer}>
-                    {project.tags.map((tag) => (
-                      <span key={tag} style={styles.tag}>{tag}</span>
-                    ))}
+                    {project.tags.map((tag) => <span key={tag} style={styles.tag}>{tag}</span>)}
                   </div>
                   <div style={styles.cardFooter}>
                     <span style={styles.cardPeriod}>{project.period}</span>
@@ -429,7 +434,7 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Skills Section */}
+      {/* Skills */}
       <section id="skills" style={styles.sectionAlt}>
         <div style={styles.sectionContainerWide}>
           <h2 style={styles.sectionTitle}>Technical Skills</h2>
@@ -440,8 +445,7 @@ const Portfolio = () => {
                 <ul style={styles.skillList}>
                   {items.map((skill) => (
                     <li key={skill} style={styles.skillItem}>
-                      <span style={styles.skillBullet}></span>
-                      {skill}
+                      <span style={styles.skillBullet}></span>{skill}
                     </li>
                   ))}
                 </ul>
@@ -451,24 +455,19 @@ const Portfolio = () => {
         </div>
       </section>
 
-      {/* Contact Section */}
+      {/* Contact */}
       <section id="contact" style={styles.contactSection}>
         <div style={styles.sectionContainer}>
           <h2 style={styles.sectionTitle}>Get In Touch</h2>
           <div style={styles.contactCard}>
             <div style={styles.contactInfo}>
               <a href="mailto:swarnanoelbenson@gmail.com" style={styles.contactLink}>
-                <Mail size={24} />
-                <span>swarnanoelbenson@gmail.com</span>
+                <Mail size={24} /><span>swarnanoelbenson@gmail.com</span>
               </a>
               <a href="https://www.linkedin.com/in/noel-benson-swarna" target="_blank" rel="noopener noreferrer" style={styles.contactLink}>
-                <Linkedin size={24} />
-                <span>linkedin.com/in/noel-benson-swarna</span>
+                <Linkedin size={24} /><span>linkedin.com/in/noel-benson-swarna</span>
               </a>
-              <div style={styles.contactItem}>
-                <MapPin size={24} />
-                <span>Melbourne, Australia</span>
-              </div>
+              <div style={styles.contactItem}><MapPin size={24} /><span>Melbourne, Australia</span></div>
             </div>
             <div style={styles.formContainer}>
               <input type="text" placeholder="Your Name" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} style={styles.input} />
@@ -489,9 +488,7 @@ const Portfolio = () => {
         <div style={styles.footerContainer}>
           <div style={styles.footerLinks}>
             {['Home', 'About', 'Education', 'Certifications', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
-              <button key={item} onClick={() => scrollToSection(item.toLowerCase())} style={styles.footerLink}>
-                {item}
-              </button>
+              <button key={item} onClick={() => scrollToSection(item.toLowerCase())} style={styles.footerLink}>{item}</button>
             ))}
           </div>
           <p style={styles.footerCopyright}>© 2026 Noel Benson Swarna. All rights reserved.</p>
@@ -503,22 +500,28 @@ const Portfolio = () => {
       {activeModal && (
         <div style={styles.modalOverlay} onClick={() => setActiveModal(null)}>
           <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setActiveModal(null)} style={styles.modalClose}>
-              <X size={32} />
-            </button>
+            <button onClick={() => setActiveModal(null)} style={styles.modalClose}><X size={32} /></button>
+
+            {/* Media carousel */}
             <div style={styles.modalImageCarousel}>
-              {/\.(mp4|webm)$/i.test(activeModal.images[modalImageIndex]) ? (
-                <video key={activeModal.images[modalImageIndex]} src={activeModal.images[modalImageIndex]} controls style={styles.modalVideo} />
-              ) : (
-                <div style={{...styles.modalImage, backgroundImage: `url(${activeModal.images[modalImageIndex]})`}}></div>
-              )}
+              <div style={styles.modalMediaWrapper}>
+                {isVideo(currentMedia) ? (
+                  <video key={currentMedia} src={currentMedia} controls style={styles.modalMedia} />
+                ) : (
+                  <img src={currentMedia} alt={activeModal.title} style={styles.modalMedia} />
+                )}
+                <button style={styles.fullscreenBtn} onClick={() => setFullscreenMedia(currentMedia)} title="Fullscreen">
+                  <Maximize2 size={18} />
+                </button>
+              </div>
+
               {activeModal.images.length > 1 && (
                 <>
                   <button style={{...styles.carouselBtn, left: '0.5rem'}} onClick={() => setModalImageIndex(i => (i - 1 + activeModal.images.length) % activeModal.images.length)}>
-                    <ChevronLeft size={20} />
+                    <ChevronLeft size={22} />
                   </button>
                   <button style={{...styles.carouselBtn, right: '0.5rem'}} onClick={() => setModalImageIndex(i => (i + 1) % activeModal.images.length)}>
-                    <ChevronRight size={20} />
+                    <ChevronRight size={22} />
                   </button>
                   <div style={styles.carouselDots}>
                     {activeModal.images.map((_, i) => (
@@ -528,18 +531,16 @@ const Portfolio = () => {
                 </>
               )}
             </div>
+
             <h2 style={styles.modalTitle}>{activeModal.title}</h2>
             <p style={styles.modalOrg}>{activeModal.org}</p>
             <div style={styles.tagsContainer}>
-              {activeModal.tags.map((tag) => (
-                <span key={tag} style={styles.tag}>{tag}</span>
-              ))}
+              {activeModal.tags.map((tag) => <span key={tag} style={styles.tag}>{tag}</span>)}
             </div>
             <p style={styles.modalText}>{activeModal.full}</p>
             {activeModal.link && (
               <a href={activeModal.link} target="_blank" rel="noopener noreferrer" style={styles.modalLink}>
-                <ExternalLink size={16} />
-                View Live Project
+                <ExternalLink size={18} /> View Live Project
               </a>
             )}
           </div>
@@ -550,21 +551,19 @@ const Portfolio = () => {
       {showMoreCerts && (
         <div style={styles.modalOverlay} onClick={() => setShowMoreCerts(false)}>
           <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <button onClick={() => setShowMoreCerts(false)} style={styles.modalClose}>
-              <X size={32} />
-            </button>
+            <button onClick={() => setShowMoreCerts(false)} style={styles.modalClose}><X size={32} /></button>
             <h2 style={styles.modalTitle}>More Certifications</h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginTop: '1.5rem' }}>
               {moreCerts.map((cert) => (
                 <div key={cert.name} style={styles.certCardModal}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem' }}>
                     <div>
-                      <p style={{ margin: 0, fontWeight: '700', color: '#0B0D63', fontSize: '1rem' }}>{cert.name}</p>
-                      <p style={{ margin: '0.2rem 0 0', fontSize: '0.875rem', color: '#555' }}>{cert.issuer} · {cert.date}</p>
-                      {cert.skills && <p style={{ margin: '0.2rem 0 0', fontSize: '0.8rem', color: '#777' }}>Skills: {cert.skills}</p>}
+                      <p style={styles.certName}>{cert.name}</p>
+                      <p style={styles.certIssuer}>{cert.issuer} · {cert.date}</p>
+                      {cert.skills && <p style={styles.certIssuer}>Skills: {cert.skills}</p>}
                     </div>
                     <a href={cert.credentialUrl} target="_blank" rel="noopener noreferrer" style={styles.certLink}>
-                      <ExternalLink size={13} /> View Credential
+                      <ExternalLink size={15} /> View Credential
                     </a>
                   </div>
                 </div>
@@ -573,305 +572,167 @@ const Portfolio = () => {
           </div>
         </div>
       )}
+
+      {/* Fullscreen overlay */}
+      {fullscreenMedia && (
+        <div style={styles.fullscreenOverlay} onClick={() => setFullscreenMedia(null)}>
+          <button style={styles.fullscreenClose} onClick={() => setFullscreenMedia(null)}><X size={36} /></button>
+          {isVideo(fullscreenMedia) ? (
+            <video key={fullscreenMedia} src={fullscreenMedia} controls autoPlay style={styles.fullscreenMedia} onClick={(e) => e.stopPropagation()} />
+          ) : (
+            <img src={fullscreenMedia} alt="fullscreen" style={styles.fullscreenMedia} onClick={(e) => e.stopPropagation()} />
+          )}
+        </div>
+      )}
     </div>
   );
 };
 
 const styles = {
   container: {
-    margin: 0,
-    padding: 0,
+    margin: 0, padding: 0,
     fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-    overflowX: 'hidden',
-    backgroundColor: '#fff',
+    overflowX: 'hidden', backgroundColor: '#fff',
   },
   loadingContainer: {
-    position: 'fixed',
-    inset: 0,
+    position: 'fixed', inset: 0,
     background: 'linear-gradient(135deg, #0B0D63, #1a1f8f, #2937c4)',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    zIndex: 9999,
+    display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999,
   },
   loadingContent: { textAlign: 'center', position: 'relative', zIndex: 2 },
   loadingLogo: { fontSize: '4rem', fontWeight: 'bold', marginBottom: '2rem' },
   loadingLogoText: { color: '#fff' },
   loadingLogoAccent: { color: '#60a5fa', marginLeft: '0.5rem' },
-  loadingBarContainer: {
-    width: '300px', height: '4px',
-    backgroundColor: 'rgba(255,255,255,0.2)',
-    borderRadius: '2px', overflow: 'hidden', margin: '0 auto 1rem',
-  },
-  loadingBar: {
-    height: '100%',
-    background: 'linear-gradient(to right, #3b82f6, #60a5fa, #93c5fd)',
-    transition: 'width 0.3s ease',
-  },
+  loadingBarContainer: { width: '300px', height: '4px', backgroundColor: 'rgba(255,255,255,0.2)', borderRadius: '2px', overflow: 'hidden', margin: '0 auto 1rem' },
+  loadingBar: { height: '100%', background: 'linear-gradient(to right, #3b82f6, #60a5fa, #93c5fd)', transition: 'width 0.3s ease' },
   loadingText: { color: '#e0e7ff', fontSize: '0.875rem', letterSpacing: '2px', fontWeight: '600' },
-  loadingGrid: {
-    position: 'absolute', inset: 0,
-    display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)',
-    gap: '1rem', padding: '2rem', opacity: 0.1,
-  },
+  loadingGrid: { position: 'absolute', inset: 0, display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem', padding: '2rem', opacity: 0.1 },
   gridItem: { backgroundColor: '#60a5fa', animation: 'pulse 2s ease-in-out infinite' },
+
   nav: { position: 'fixed', top: 0, left: 0, right: 0, zIndex: 1000, background: 'transparent', transition: 'all 0.3s ease' },
-  navScrolled: { background: 'rgba(11, 13, 99, 0.95)', backdropFilter: 'blur(10px)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' },
-  navContainer: {
-    maxWidth: '1200px', margin: '0 auto', padding: '1rem 2rem',
-    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-  },
+  navScrolled: { background: 'rgba(11,13,99,0.95)', backdropFilter: 'blur(10px)', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' },
+  navContainer: { maxWidth: '1200px', margin: '0 auto', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   logo: { fontSize: '1.5rem', fontWeight: 'bold', color: '#fff' },
   navLinks: { display: 'flex', gap: '1.25rem' },
-  navLink: {
-    color: '#e0e7ff', background: 'none', border: 'none',
-    cursor: 'pointer', fontSize: '0.9rem', transition: 'color 0.3s', fontWeight: '500',
-  },
-  hero: {
-    position: 'relative', minHeight: '100vh',
-    display: 'flex', alignItems: 'center', justifyContent: 'center',
-    overflow: 'hidden',
-    background: 'linear-gradient(135deg, #0B0D63, #1a1f8f, #2937c4)',
-  },
-  heroGradient: {
-    position: 'absolute', inset: 0,
-    background: 'linear-gradient(135deg, rgba(11,13,99,0.9), rgba(41,55,196,0.8))',
-    backgroundSize: '200% 200%', animation: 'gradient 15s ease infinite',
-  },
+  navLink: { color: '#e0e7ff', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', transition: 'color 0.3s', fontWeight: '500' },
+
+  hero: { position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: 'linear-gradient(135deg, #0B0D63, #1a1f8f, #2937c4)' },
+  heroGradient: { position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(11,13,99,0.9), rgba(41,55,196,0.8))', backgroundSize: '200% 200%', animation: 'gradient 15s ease infinite' },
   heroBlobs: { position: 'absolute', inset: 0, overflow: 'hidden' },
-  blob1: {
-    position: 'absolute', top: '20%', left: '10%', width: '400px', height: '400px',
-    background: 'radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)',
-    borderRadius: '50%', filter: 'blur(60px)', animation: 'float 20s ease-in-out infinite',
-  },
-  blob2: {
-    position: 'absolute', bottom: '20%', right: '10%', width: '500px', height: '500px',
-    background: 'radial-gradient(circle, rgba(96,165,250,0.3) 0%, transparent 70%)',
-    borderRadius: '50%', filter: 'blur(60px)', animation: 'floatDelayed 25s ease-in-out infinite',
-  },
+  blob1: { position: 'absolute', top: '20%', left: '10%', width: '400px', height: '400px', background: 'radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)', animation: 'float 20s ease-in-out infinite' },
+  blob2: { position: 'absolute', bottom: '20%', right: '10%', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(96,165,250,0.3) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(60px)', animation: 'floatDelayed 25s ease-in-out infinite' },
   heroContent: { position: 'relative', zIndex: 10, textAlign: 'center', color: '#fff', padding: '2rem', maxWidth: '800px' },
-  heroTitle: {
-    fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '1rem',
-    background: 'linear-gradient(to right, #fff, #93c5fd)',
-    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-  },
-  heroSubtitle: { fontSize: '1.5rem', marginBottom: '0.5rem', color: '#e0e7ff' },
-  heroTagline: { fontSize: '1.125rem', marginBottom: '2rem', color: '#bfdbfe' },
+  heroTitle: { fontSize: '3.5rem', fontWeight: 'bold', marginBottom: '1rem', background: 'linear-gradient(to right, #fff, #93c5fd)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' },
+  heroSubtitle: { fontSize: '1.75rem', marginBottom: '0.5rem', color: '#e0e7ff' },
+  heroTagline: { fontSize: '1.25rem', marginBottom: '2rem', color: '#bfdbfe' },
   heroButtons: { display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' },
-  primaryButton: {
-    background: 'linear-gradient(to right, #3b82f6, #2563eb)', color: '#fff',
-    padding: '1rem 2rem', borderRadius: '12px', fontWeight: '600', border: 'none',
-    cursor: 'pointer', fontSize: '1rem', transition: 'transform 0.3s, box-shadow 0.3s',
-    boxShadow: '0 4px 14px rgba(59,130,246,0.4)',
-  },
-  secondaryButton: {
-    background: 'transparent', color: '#fff', padding: '1rem 2rem',
-    borderRadius: '12px', fontWeight: '600', border: '2px solid #60a5fa',
-    cursor: 'pointer', fontSize: '1rem', transition: 'all 0.3s',
-  },
+  primaryButton: { background: 'linear-gradient(to right, #3b82f6, #2563eb)', color: '#fff', padding: '1rem 2rem', borderRadius: '12px', fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1.1rem', transition: 'transform 0.3s, box-shadow 0.3s', boxShadow: '0 4px 14px rgba(59,130,246,0.4)' },
+  secondaryButton: { background: 'transparent', color: '#fff', padding: '1rem 2rem', borderRadius: '12px', fontWeight: '600', border: '2px solid #60a5fa', cursor: 'pointer', fontSize: '1.1rem', transition: 'all 0.3s' },
+
   section: { padding: '5rem 2rem', backgroundColor: '#fff' },
   sectionAlt: { padding: '5rem 2rem', background: 'linear-gradient(135deg, #eff6ff, #dbeafe)' },
   sectionContainer: { maxWidth: '1000px', margin: '0 auto' },
   sectionContainerWide: { maxWidth: '1200px', margin: '0 auto' },
-  sectionTitle: {
-    fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '3rem', textAlign: 'center',
-    background: 'linear-gradient(to right, #0B0D63, #3b82f6)',
-    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text',
-  },
+  sectionTitle: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '3rem', textAlign: 'center', background: 'linear-gradient(to right, #0B0D63, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' },
+
   aboutContent: { textAlign: 'center' },
-  paragraph: { fontSize: '1.125rem', lineHeight: '1.8', color: '#555' },
+  paragraph: { fontSize: '2rem', lineHeight: '1.8', color: '#555' },
+
   educationContainer: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
-  educationCard: {
-    backgroundColor: '#fff', padding: '1.5rem', borderRadius: '12px',
-    boxShadow: '0 4px 6px rgba(11,13,99,0.1)',
-  },
-  educationCardHeader: {
-    display: 'flex', justifyContent: 'space-between',
-    alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.75rem',
-  },
-  educationTitle: { fontSize: '1.25rem', fontWeight: 'bold', color: '#333', margin: 0 },
-  educationInstitution: { color: '#3b82f6', marginTop: '0.4rem', margin: '0.4rem 0 0' },
-  educationYear: { fontSize: '1.25rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
-  certGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1rem' },
-  certCard: {
-    backgroundColor: '#fff', padding: '1rem', borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(11,13,99,0.1)', transition: 'box-shadow 0.3s',
-  },
-  certCardModal: {
-    backgroundColor: '#f8faff', padding: '1rem 1.25rem', borderRadius: '8px',
-    border: '1px solid #dbeafe',
-  },
-  certLink: {
-    display: 'inline-flex', alignItems: 'center', gap: '0.3rem',
-    marginTop: '0.6rem', color: '#3b82f6', fontWeight: '700',
-    textDecoration: 'none', fontSize: '0.85rem',
-  },
-  viewMoreBtn: {
-    background: 'linear-gradient(to right, #0B0D63, #3b82f6)',
-    color: '#fff', padding: '0.75rem 2rem', borderRadius: '10px',
-    fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1rem',
-  },
-  skillsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' },
-  skillCard: {
-    backgroundColor: '#fff', padding: '2rem', borderRadius: '16px',
-    boxShadow: '0 4px 12px rgba(11,13,99,0.1)', transition: 'transform 0.3s, box-shadow 0.3s',
-  },
-  skillCategory: { fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '1rem', color: '#0B0D63' },
-  skillList: { listStyle: 'none', padding: 0, margin: 0 },
-  skillItem: { padding: '0.5rem 0', display: 'flex', alignItems: 'center', color: '#555' },
-  skillBullet: {
-    display: 'inline-block', width: '8px', height: '8px',
-    borderRadius: '50%', backgroundColor: '#3b82f6', marginRight: '0.75rem',
-  },
-  projectsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '2rem' },
-  projectCard: {
-    backgroundColor: '#fff', borderRadius: '16px', overflow: 'hidden',
-    boxShadow: '0 4px 12px rgba(11,13,99,0.1)', transition: 'transform 0.3s, box-shadow 0.3s', cursor: 'pointer',
-  },
-  projectImage: { height: '200px', backgroundSize: 'cover', backgroundPosition: 'center', position: 'relative' },
-  projectImageOverlay: {
-    position: 'absolute', inset: 0,
-    background: 'linear-gradient(to bottom, transparent, rgba(11,13,99,0.7))',
-  },
-  projectContent: { padding: '1.5rem' },
-  projectTitle: { fontSize: '1.25rem', fontWeight: 'bold', marginBottom: '0.25rem', color: '#0B0D63' },
-  projectOrg: { fontSize: '0.8rem', fontWeight: '700', color: '#3b82f6', marginBottom: '0.6rem', marginTop: 0 },
-  projectDescription: { color: '#666', marginBottom: '1rem', fontSize: '0.9rem' },
-  tagsContainer: { display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' },
-  tag: {
-    fontSize: '0.75rem', background: 'linear-gradient(to right, #dbeafe, #bfdbfe)',
-    color: '#1e40af', padding: '0.25rem 0.75rem', borderRadius: '9999px',
-  },
-  cardFooter: { display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' },
-  cardPeriod: { fontSize: '1rem', color: '#0B0D63', fontWeight: '700' },
+  educationCard: { backgroundColor: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px rgba(11,13,99,0.1)' },
+  educationCardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.75rem' },
+  educationTitle: { fontSize: '2.5rem', fontWeight: 'bold', color: '#333', margin: 0 },
+  educationInstitution: { fontSize: '2rem', color: '#3b82f6', marginTop: '0.4rem' },
+  educationYear: { fontSize: '2.5rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
+
+  certGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' },
+  certCard: { backgroundColor: '#fff', padding: '1.25rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(11,13,99,0.1)', transition: 'box-shadow 0.3s' },
+  certCardModal: { backgroundColor: '#f8faff', padding: '1rem 1.25rem', borderRadius: '8px', border: '1px solid #dbeafe' },
+  certName: { margin: 0, fontWeight: '700', color: '#0B0D63', fontSize: '2.5rem' },
+  certIssuer: { margin: '0.3rem 0 0', fontSize: '2rem', color: '#555' },
+  certDate: { margin: '0.2rem 0 0', fontSize: '2.5rem', color: '#3b82f6', fontWeight: '700' },
+  certLink: { display: 'inline-flex', alignItems: 'center', gap: '0.3rem', marginTop: '0.6rem', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '2.5rem' },
+  viewMoreBtn: { background: 'linear-gradient(to right, #0B0D63, #3b82f6)', color: '#fff', padding: '0.75rem 2rem', borderRadius: '10px', fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1.1rem' },
+
   experienceContainer: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
-  experienceCard: {
-    backgroundColor: '#fff', padding: '1.5rem 2rem', borderRadius: '12px',
-    boxShadow: '0 4px 6px rgba(11,13,99,0.1)',
-  },
-  experienceHeader: {
-    display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
-    flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem',
-  },
-  experienceTitle: { fontSize: '1.2rem', fontWeight: 'bold', color: '#0B0D63', margin: 0 },
-  experienceCompanyLink: {
-    display: 'block', color: '#3b82f6', fontWeight: '600',
-    textDecoration: 'none', marginTop: '0.25rem',
-  },
-  experienceNote: { margin: '0.25rem 0 0' },
-  experienceNoteLink: {
-    color: '#0B0D63', fontWeight: '700', textDecoration: 'none',
-    fontSize: '0.875rem',
-  },
-  experiencePeriod: { fontSize: '1.2rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
-  experienceBullets: { margin: 0, paddingLeft: '1.25rem' },
-  experienceBullet: { color: '#555', lineHeight: '1.7', marginBottom: '0.4rem' },
-  experienceTechStack: {
-    marginTop: '0.75rem', marginBottom: '0.5rem',
-    fontSize: '0.9rem', color: '#444',
-  },
+  experienceCard: { backgroundColor: '#fff', padding: '1.5rem 2rem', borderRadius: '12px', boxShadow: '0 4px 6px rgba(11,13,99,0.1)' },
+  experienceHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' },
+  experienceTitle: { fontSize: '2.5rem', fontWeight: 'bold', color: '#0B0D63', margin: 0 },
+  experienceCompanyLink: { display: 'inline-block', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '2.5rem', marginTop: '0.25rem' },
+  experienceNote: { margin: '0.3rem 0 0', fontSize: '2rem', color: '#444' },
+  experienceNoteLink: { color: '#0B0D63', fontWeight: '700', textDecoration: 'underline', fontSize: '2rem' },
+  experiencePeriod: { fontSize: '2.5rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
+  experienceBullets: { margin: '0.75rem 0 0', paddingLeft: '1.5rem' },
+  experienceBullet: { fontSize: '2rem', color: '#555', lineHeight: '1.7', marginBottom: '0.5rem' },
+  experienceTechStack: { marginTop: '0.75rem', marginBottom: '0.5rem', fontSize: '2rem', color: '#444' },
+
+  projectsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' },
+  projectCard: { backgroundColor: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(11,13,99,0.1)', transition: 'transform 0.3s, box-shadow 0.3s', cursor: 'pointer' },
+  projectImageBox: { height: '220px', backgroundColor: '#f0f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
+  projectMediaContain: { maxWidth: '100%', maxHeight: '220px', objectFit: 'contain', display: 'block' },
+  projectContent: { padding: '1.5rem' },
+  projectTitle: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '0.25rem', color: '#0B0D63' },
+  projectOrg: { fontSize: '2rem', fontWeight: '700', color: '#3b82f6', marginBottom: '0.6rem', marginTop: 0 },
+  projectDescription: { color: '#666', marginBottom: '1rem', fontSize: '2rem' },
+  tagsContainer: { display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' },
+  tag: { fontSize: '1rem', background: 'linear-gradient(to right, #dbeafe, #bfdbfe)', color: '#1e40af', padding: '0.25rem 0.75rem', borderRadius: '9999px' },
+  cardFooter: { display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' },
+  cardPeriod: { fontSize: '2.5rem', color: '#0B0D63', fontWeight: '700' },
+
+  skillsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' },
+  skillCard: { backgroundColor: '#fff', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 12px rgba(11,13,99,0.1)' },
+  skillCategory: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#0B0D63' },
+  skillList: { listStyle: 'none', padding: 0, margin: 0 },
+  skillItem: { padding: '0.5rem 0', display: 'flex', alignItems: 'center', color: '#555', fontSize: '2rem' },
+  skillBullet: { display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#3b82f6', marginRight: '0.75rem', flexShrink: 0 },
+
   contactSection: { padding: '5rem 2rem', background: 'linear-gradient(135deg, #dbeafe, #eff6ff, #f0f9ff)' },
-  contactCard: {
-    backgroundColor: '#fff', padding: '2rem', borderRadius: '12px',
-    boxShadow: '0 8px 16px rgba(11,13,99,0.1)',
-  },
+  contactCard: { backgroundColor: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 8px 16px rgba(11,13,99,0.1)' },
   contactInfo: { display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' },
-  contactLink: {
-    display: 'flex', alignItems: 'center', gap: '0.75rem',
-    color: '#555', textDecoration: 'none', transition: 'color 0.3s',
-  },
-  contactItem: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#555' },
+  contactLink: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#555', textDecoration: 'none', transition: 'color 0.3s', fontSize: '2rem' },
+  contactItem: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#555', fontSize: '2rem' },
   formContainer: { display: 'flex', flexDirection: 'column', gap: '1rem' },
-  input: {
-    width: '100%', padding: '0.75rem 1rem', border: '1px solid #ddd',
-    borderRadius: '8px', fontSize: '1rem', outline: 'none',
-    transition: 'border-color 0.3s', boxSizing: 'border-box',
-  },
+  input: { width: '100%', padding: '0.75rem 1rem', border: '1px solid #ddd', borderRadius: '8px', fontSize: '1.25rem', outline: 'none', transition: 'border-color 0.3s', boxSizing: 'border-box' },
   textarea: { resize: 'vertical', fontFamily: 'inherit' },
-  submitButton: {
-    width: '100%', background: 'linear-gradient(to right, #0B0D63, #3b82f6, #60a5fa)',
-    color: '#fff', padding: '0.75rem', borderRadius: '8px', fontWeight: '600',
-    border: 'none', cursor: 'pointer', fontSize: '1rem', transition: 'opacity 0.3s',
-  },
-  successMessage: { color: '#10b981', textAlign: 'center' },
-  errorMessage: { color: '#ef4444', textAlign: 'center' },
+  submitButton: { width: '100%', background: 'linear-gradient(to right, #0B0D63, #3b82f6, #60a5fa)', color: '#fff', padding: '0.75rem', borderRadius: '8px', fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1.25rem', transition: 'opacity 0.3s' },
+  successMessage: { color: '#10b981', textAlign: 'center', fontSize: '1.25rem' },
+  errorMessage: { color: '#ef4444', textAlign: 'center', fontSize: '1.25rem' },
+
   footer: { backgroundColor: '#0B0D63', color: '#fff', padding: '2rem' },
   footerContainer: { maxWidth: '1200px', margin: '0 auto', textAlign: 'center' },
   footerLinks: { display: 'flex', justifyContent: 'center', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' },
-  footerLink: {
-    background: 'none', border: 'none', color: '#e0e7ff',
-    cursor: 'pointer', fontSize: '0.9rem', transition: 'color 0.3s',
-  },
-  footerCopyright: { color: '#bfdbfe', marginBottom: '0.5rem' },
+  footerLink: { background: 'none', border: 'none', color: '#e0e7ff', cursor: 'pointer', fontSize: '1rem', transition: 'color 0.3s' },
+  footerCopyright: { color: '#bfdbfe', marginBottom: '0.5rem', fontSize: '1rem' },
   footerMade: { fontSize: '0.875rem', color: '#93c5fd' },
-  modalOverlay: {
-    position: 'fixed', inset: 0,
-    backgroundColor: 'rgba(11,13,99,0.5)', backdropFilter: 'blur(4px)',
-    zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem',
-  },
-  modalContent: {
-    backgroundColor: '#fff', borderRadius: '16px', maxWidth: '700px', width: '100%',
-    padding: '2rem', position: 'relative', animation: 'fadeIn 0.3s ease-out',
-    maxHeight: '80vh', overflowY: 'auto',
-  },
+
+  modalOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(11,13,99,0.5)', backdropFilter: 'blur(4px)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem' },
+  modalContent: { backgroundColor: '#fff', borderRadius: '16px', maxWidth: '960px', width: '100%', padding: '2rem', position: 'relative', animation: 'fadeIn 0.3s ease-out', maxHeight: '90vh', overflowY: 'auto' },
   modalImageCarousel: { position: 'relative', marginBottom: '1.5rem' },
-  modalImage: {
-    height: '250px', backgroundSize: 'cover', backgroundPosition: 'center', borderRadius: '12px',
-  },
-  carouselBtn: {
-    position: 'absolute', top: '50%', transform: 'translateY(-50%)',
-    background: 'rgba(11,13,99,0.7)', border: 'none', borderRadius: '50%',
-    width: '36px', height: '36px', display: 'flex', alignItems: 'center',
-    justifyContent: 'center', cursor: 'pointer', color: '#fff', zIndex: 10,
-  },
-  carouselDots: { display: 'flex', justifyContent: 'center', gap: '0.4rem', marginTop: '0.6rem' },
-  carouselDot: {
-    width: '8px', height: '8px', borderRadius: '50%', background: '#cbd5e1',
-    border: 'none', cursor: 'pointer', padding: 0,
-  },
+  modalMediaWrapper: { position: 'relative', backgroundColor: '#0a0a0a', borderRadius: '12px', overflow: 'hidden', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '480px' },
+  modalMedia: { maxWidth: '100%', maxHeight: '480px', objectFit: 'contain', display: 'block' },
+  fullscreenBtn: { position: 'absolute', top: '0.6rem', right: '0.6rem', background: 'rgba(0,0,0,0.6)', border: 'none', borderRadius: '6px', padding: '0.4rem', cursor: 'pointer', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 5 },
+  carouselBtn: { position: 'absolute', top: '50%', transform: 'translateY(-50%)', background: 'rgba(11,13,99,0.7)', border: 'none', borderRadius: '50%', width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', zIndex: 10 },
+  carouselDots: { display: 'flex', justifyContent: 'center', gap: '0.4rem', marginTop: '0.75rem' },
+  carouselDot: { width: '10px', height: '10px', borderRadius: '50%', background: '#cbd5e1', border: 'none', cursor: 'pointer', padding: 0 },
   carouselDotActive: { background: '#3b82f6' },
-  modalClose: {
-    position: 'absolute', top: '1rem', right: '1rem',
-    background: 'none', border: 'none', color: '#666', cursor: 'pointer', zIndex: 10,
-  },
-  modalTitle: {
-    fontSize: '2rem', fontWeight: 'bold', marginBottom: '1rem',
-    background: 'linear-gradient(to right, #0B0D63, #3b82f6, #60a5fa)',
-    WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text', paddingRight: '2rem',
-  },
-  modalOrg: { fontSize: '0.9rem', fontWeight: '700', color: '#3b82f6', margin: '0 0 1rem', paddingRight: '2rem' },
-  modalVideo: { width: '100%', height: '250px', borderRadius: '12px', objectFit: 'contain', backgroundColor: '#000' },
-  modalText: { color: '#555', fontSize: '1.125rem', lineHeight: '1.75', marginTop: '1.5rem' },
-  modalLink: {
-    display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
-    marginTop: '1.5rem', color: '#3b82f6', fontWeight: '700',
-    textDecoration: 'none', fontSize: '1rem',
-  },
+  modalClose: { position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: '#666', cursor: 'pointer', zIndex: 10 },
+  modalTitle: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '0.5rem', background: 'linear-gradient(to right, #0B0D63, #3b82f6, #60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingRight: '2rem' },
+  modalOrg: { fontSize: '2rem', fontWeight: '700', color: '#3b82f6', margin: '0 0 1rem', paddingRight: '2rem' },
+  modalText: { color: '#555', fontSize: '2rem', lineHeight: '1.75', marginTop: '1.5rem' },
+  modalLink: { display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.5rem', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '2.5rem' },
+
+  fullscreenOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out' },
+  fullscreenMedia: { maxWidth: '95vw', maxHeight: '95vh', objectFit: 'contain', display: 'block' },
+  fullscreenClose: { position: 'absolute', top: '1rem', right: '1rem', background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: '50%', width: '48px', height: '48px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#fff', zIndex: 10 },
 };
 
 const styleSheet = document.createElement("style");
 styleSheet.textContent = `
-  @keyframes gradient {
-    0%, 100% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-  }
-  @keyframes float {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(20px, -20px) scale(1.1); }
-  }
-  @keyframes floatDelayed {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-20px, 20px) scale(1.1); }
-  }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes pulse {
-    0%, 100% { opacity: 0.3; }
-    50% { opacity: 0.6; }
-  }
+  @keyframes gradient { 0%, 100% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } }
+  @keyframes float { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(20px,-20px) scale(1.1); } }
+  @keyframes floatDelayed { 0%, 100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-20px,20px) scale(1.1); } }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.6; } }
 `;
 document.head.appendChild(styleSheet);
 
