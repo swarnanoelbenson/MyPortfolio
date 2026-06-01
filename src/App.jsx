@@ -114,7 +114,7 @@ const Portfolio = () => {
     },
     {
       id: 5,
-      title: "AI-Powered CAPTCHA",
+      title: "Web-based CAPTCHA",
       org: "External Research Collaborator · SPRITZ Research Group, Italy",
       period: "Jan 2024 – Jun 2024",
       short: "Web-based CAPTCHA solution for retail marketing — SPRITZ Research Group, University of Padua, Italy",
@@ -122,8 +122,8 @@ const Portfolio = () => {
       tags: ["Security", "PHP", "HTML/CSS", "Research"],
       link: null,
       images: [
-        "/images/Captcha_0_illustration_video.mp4",
         "/images/Captcha_1_Backend_access.jpg",
+        "/images/Captcha_0_illustration_video.mp4",
         "/images/Captcha_2_Frontend.jpg",
         "/images/Captcha_3_Frontend.jpg",
         "/images/Captcha_4_Database.jpg"
@@ -211,23 +211,23 @@ const Portfolio = () => {
   ];
 
   const handleSubmit = () => {
-    if (!formData.name || !formData.email || !formData.message) { setFormStatus('error'); return; }
+    if (!formData.name || !formData.email || !formData.message) { setFormStatus('validationError'); return; }
     setFormStatus('sending');
     emailjs.send(import.meta.env.VITE_EMAILJS_SERVICE_ID, 'template_6b4q957', {
       cust_name: formData.name, cust_email: formData.email,
       message: formData.message, to_email: 'swarnanoelbenson@gmail.com'
     }, '9IMSEIKLcnE65Svq8')
-    .then(() => emailjs.send('service_yskz8og', 'template_ngjkfod', {
-      cust_name: formData.name, cust_email: formData.email
-    }, '9IMSEIKLcnE65Svq8'))
     .then(() => {
       setFormStatus('success');
+      const name = formData.name, email = formData.email;
       setFormData({ name: '', email: '', message: '' });
       setTimeout(() => setFormStatus(''), 3000);
+      // confirmation email — fire and forget
+      emailjs.send('service_yskz8og', 'template_ngjkfod', { cust_name: name, cust_email: email }, '9IMSEIKLcnE65Svq8').catch(() => {});
     })
     .catch((error) => {
       console.error('Email error:', error);
-      setFormStatus('error');
+      setFormStatus('sendError');
       setTimeout(() => setFormStatus(''), 3000);
     });
   };
@@ -263,7 +263,7 @@ const Portfolio = () => {
       {/* Navigation */}
       <nav style={{...styles.nav, ...(scrolled ? styles.navScrolled : {})}}>
         <div style={styles.navContainer}>
-          <div style={styles.logo}>Noel AI</div>
+          <div style={styles.logo}>NOEL BENSON SWARNA</div>
           <div style={styles.navLinks}>
             {['Home', 'About', 'Education', 'Certifications', 'Experience', 'Projects', 'Skills', 'Contact'].map((item) => (
               <button key={item} onClick={() => scrollToSection(item.toLowerCase())} style={styles.navLink}>{item}</button>
@@ -340,11 +340,12 @@ const Portfolio = () => {
         <div style={styles.sectionContainer}>
           <h2 style={styles.sectionTitle}>Certifications</h2>
           <div style={styles.certGrid}>
-            {mainCerts.map((cert) => (
+            {[...mainCerts, ...moreCerts].map((cert) => (
               <div key={cert.name} style={styles.certCard}>
                 <p style={styles.certName}>{cert.name}</p>
                 <p style={styles.certIssuer}>{cert.issuer}</p>
                 <p style={styles.certDate}>{cert.date}</p>
+                {cert.skills && <p style={{...styles.certIssuer, color: '#777'}}>Skills: {cert.skills}</p>}
                 {cert.credentialUrl && (
                   <a href={cert.credentialUrl} target="_blank" rel="noopener noreferrer" style={styles.certLink}>
                     <ExternalLink size={15} /> View Credential
@@ -352,9 +353,6 @@ const Portfolio = () => {
                 )}
               </div>
             ))}
-          </div>
-          <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-            <button onClick={() => setShowMoreCerts(true)} style={styles.viewMoreBtn}>View More Certifications</button>
           </div>
         </div>
       </section>
@@ -461,11 +459,14 @@ const Portfolio = () => {
           <h2 style={styles.sectionTitle}>Get In Touch</h2>
           <div style={styles.contactCard}>
             <div style={styles.contactInfo}>
-              <a href="mailto:swarnanoelbenson@gmail.com" style={styles.contactLink}>
+              <a href="mailto:swarnanoelbenson@gmail.com" style={styles.contactLinkHighlight}>
                 <Mail size={24} /><span>swarnanoelbenson@gmail.com</span>
               </a>
-              <a href="https://www.linkedin.com/in/noel-benson-swarna" target="_blank" rel="noopener noreferrer" style={styles.contactLink}>
+              <a href="https://www.linkedin.com/in/noel-benson-swarna" target="_blank" rel="noopener noreferrer" style={styles.contactLinkHighlight}>
                 <Linkedin size={24} /><span>linkedin.com/in/noel-benson-swarna</span>
+              </a>
+              <a href="https://github.com/swarnanoelbenson" target="_blank" rel="noopener noreferrer" style={styles.contactLinkHighlight}>
+                <ExternalLink size={24} /><span>github.com/swarnanoelbenson</span>
               </a>
               <div style={styles.contactItem}><MapPin size={24} /><span>Melbourne, Australia</span></div>
             </div>
@@ -477,7 +478,8 @@ const Portfolio = () => {
                 {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
               </button>
               {formStatus === 'success' && <p style={styles.successMessage}>Message sent successfully!</p>}
-              {formStatus === 'error' && <p style={styles.errorMessage}>Please fill in all fields</p>}
+              {formStatus === 'validationError' && <p style={styles.errorMessage}>Please fill in all fields.</p>}
+              {formStatus === 'sendError' && <p style={styles.errorMessage}>Failed to send — please try again.</p>}
             </div>
           </div>
         </div>
@@ -492,7 +494,7 @@ const Portfolio = () => {
             ))}
           </div>
           <p style={styles.footerCopyright}>© 2026 Noel Benson Swarna. All rights reserved.</p>
-          <p style={styles.footerMade}>Made with React & AI</p>
+          <p style={styles.footerMade}>Made with React & AI using Claude Code</p>
         </div>
       </footer>
 
@@ -614,7 +616,7 @@ const styles = {
   navContainer: { maxWidth: '1200px', margin: '0 auto', padding: '1rem 2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
   logo: { fontSize: '1.5rem', fontWeight: 'bold', color: '#fff' },
   navLinks: { display: 'flex', gap: '1.25rem' },
-  navLink: { color: '#e0e7ff', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', transition: 'color 0.3s', fontWeight: '500' },
+  navLink: { color: '#e0e7ff', background: 'none', border: 'none', cursor: 'pointer', fontSize: '1rem', transition: 'color 0.3s', fontWeight: '700' },
 
   hero: { position: 'relative', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: 'linear-gradient(135deg, #0B0D63, #1a1f8f, #2937c4)' },
   heroGradient: { position: 'absolute', inset: 0, background: 'linear-gradient(135deg, rgba(11,13,99,0.9), rgba(41,55,196,0.8))', backgroundSize: '200% 200%', animation: 'gradient 15s ease infinite' },
@@ -626,77 +628,78 @@ const styles = {
   heroSubtitle: { fontSize: '1.75rem', marginBottom: '0.5rem', color: '#e0e7ff' },
   heroTagline: { fontSize: '1.25rem', marginBottom: '2rem', color: '#bfdbfe' },
   heroButtons: { display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' },
-  primaryButton: { background: 'linear-gradient(to right, #3b82f6, #2563eb)', color: '#fff', padding: '1rem 2rem', borderRadius: '12px', fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1.1rem', transition: 'transform 0.3s, box-shadow 0.3s', boxShadow: '0 4px 14px rgba(59,130,246,0.4)' },
-  secondaryButton: { background: 'transparent', color: '#fff', padding: '1rem 2rem', borderRadius: '12px', fontWeight: '600', border: '2px solid #60a5fa', cursor: 'pointer', fontSize: '1.1rem', transition: 'all 0.3s' },
+  primaryButton: { background: 'linear-gradient(to right, #3b82f6, #2563eb)', color: '#fff', padding: '1rem 2rem', borderRadius: '12px', fontWeight: '700', border: 'none', cursor: 'pointer', fontSize: '1.1rem', transition: 'transform 0.3s, box-shadow 0.3s', boxShadow: '0 4px 14px rgba(59,130,246,0.4)' },
+  secondaryButton: { background: 'transparent', color: '#fff', padding: '1rem 2rem', borderRadius: '12px', fontWeight: '700', border: '2px solid #60a5fa', cursor: 'pointer', fontSize: '1.1rem', transition: 'all 0.3s' },
 
   section: { padding: '5rem 2rem', backgroundColor: '#fff' },
   sectionAlt: { padding: '5rem 2rem', background: 'linear-gradient(135deg, #eff6ff, #dbeafe)' },
-  sectionContainer: { maxWidth: '1000px', margin: '0 auto' },
-  sectionContainerWide: { maxWidth: '1200px', margin: '0 auto' },
+  sectionContainer: { maxWidth: '1400px', margin: '0 auto' },
+  sectionContainerWide: { maxWidth: '1600px', margin: '0 auto' },
   sectionTitle: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '3rem', textAlign: 'center', background: 'linear-gradient(to right, #0B0D63, #3b82f6)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' },
 
   aboutContent: { textAlign: 'center' },
-  paragraph: { fontSize: '2rem', lineHeight: '1.8', color: '#555' },
+  paragraph: { fontSize: '1.2rem', lineHeight: '1.8', color: '#555' },
 
   educationContainer: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
   educationCard: { backgroundColor: '#fff', padding: '1.5rem', borderRadius: '12px', boxShadow: '0 4px 6px rgba(11,13,99,0.1)' },
   educationCardHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.75rem' },
-  educationTitle: { fontSize: '2.5rem', fontWeight: 'bold', color: '#333', margin: 0 },
-  educationInstitution: { fontSize: '2rem', color: '#3b82f6', marginTop: '0.4rem' },
-  educationYear: { fontSize: '2.5rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
+  educationTitle: { fontSize: '1.5rem', fontWeight: 'bold', color: '#333', margin: 0 },
+  educationInstitution: { fontSize: '1.2rem', color: '#3b82f6', marginTop: '0.4rem' },
+  educationYear: { fontSize: '1.5rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
 
   certGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1rem' },
   certCard: { backgroundColor: '#fff', padding: '1.25rem', borderRadius: '8px', boxShadow: '0 2px 4px rgba(11,13,99,0.1)', transition: 'box-shadow 0.3s' },
   certCardModal: { backgroundColor: '#f8faff', padding: '1rem 1.25rem', borderRadius: '8px', border: '1px solid #dbeafe' },
-  certName: { margin: 0, fontWeight: '700', color: '#0B0D63', fontSize: '2.5rem' },
-  certIssuer: { margin: '0.3rem 0 0', fontSize: '2rem', color: '#555' },
-  certDate: { margin: '0.2rem 0 0', fontSize: '2.5rem', color: '#3b82f6', fontWeight: '700' },
-  certLink: { display: 'inline-flex', alignItems: 'center', gap: '0.3rem', marginTop: '0.6rem', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '2.5rem' },
+  certName: { margin: 0, fontWeight: '700', color: '#0B0D63', fontSize: '1.5rem' },
+  certIssuer: { margin: '0.3rem 0 0', fontSize: '1.2rem', color: '#3b82f6', fontWeight: '600' },
+  certDate: { margin: '0.2rem 0 0', fontSize: '1.5rem', color: '#555', fontWeight: '400' },
+  certLink: { display: 'inline-flex', alignItems: 'center', gap: '0.3rem', marginTop: '0.6rem', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '1.1rem' },
   viewMoreBtn: { background: 'linear-gradient(to right, #0B0D63, #3b82f6)', color: '#fff', padding: '0.75rem 2rem', borderRadius: '10px', fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1.1rem' },
 
   experienceContainer: { display: 'flex', flexDirection: 'column', gap: '1.5rem' },
   experienceCard: { backgroundColor: '#fff', padding: '1.5rem 2rem', borderRadius: '12px', boxShadow: '0 4px 6px rgba(11,13,99,0.1)' },
   experienceHeader: { display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' },
-  experienceTitle: { fontSize: '2.5rem', fontWeight: 'bold', color: '#0B0D63', margin: 0 },
-  experienceCompanyLink: { display: 'inline-block', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '2.5rem', marginTop: '0.25rem' },
-  experienceNote: { margin: '0.3rem 0 0', fontSize: '2rem', color: '#444' },
-  experienceNoteLink: { color: '#0B0D63', fontWeight: '700', textDecoration: 'underline', fontSize: '2rem' },
-  experiencePeriod: { fontSize: '2.5rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
+  experienceTitle: { fontSize: '1.5rem', fontWeight: 'bold', color: '#0B0D63', margin: 0 },
+  experienceCompanyLink: { display: 'inline-block', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '1.25rem', marginTop: '0.25rem' },
+  experienceNote: { margin: '0.3rem 0 0', fontSize: '1.2rem', color: '#444' },
+  experienceNoteLink: { color: '#0B0D63', fontWeight: '700', textDecoration: 'underline', fontSize: '1.2rem' },
+  experiencePeriod: { fontSize: '1.5rem', fontWeight: 'bold', color: '#0B0D63', whiteSpace: 'nowrap' },
   experienceBullets: { margin: '0.75rem 0 0', paddingLeft: '1.5rem' },
-  experienceBullet: { fontSize: '2rem', color: '#555', lineHeight: '1.7', marginBottom: '0.5rem' },
-  experienceTechStack: { marginTop: '0.75rem', marginBottom: '0.5rem', fontSize: '2rem', color: '#444' },
+  experienceBullet: { fontSize: '1.2rem', color: '#555', lineHeight: '1.7', marginBottom: '0.5rem' },
+  experienceTechStack: { marginTop: '0.75rem', marginBottom: '0.5rem', fontSize: '1.2rem', color: '#444' },
 
   projectsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '2rem' },
   projectCard: { backgroundColor: '#fff', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 4px 12px rgba(11,13,99,0.1)', transition: 'transform 0.3s, box-shadow 0.3s', cursor: 'pointer' },
   projectImageBox: { height: '220px', backgroundColor: '#f0f4ff', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
   projectMediaContain: { maxWidth: '100%', maxHeight: '220px', objectFit: 'contain', display: 'block' },
   projectContent: { padding: '1.5rem' },
-  projectTitle: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '0.25rem', color: '#0B0D63' },
-  projectOrg: { fontSize: '2rem', fontWeight: '700', color: '#3b82f6', marginBottom: '0.6rem', marginTop: 0 },
-  projectDescription: { color: '#666', marginBottom: '1rem', fontSize: '2rem' },
+  projectTitle: { fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '0.25rem', color: '#0B0D63' },
+  projectOrg: { fontSize: '1.2rem', fontWeight: '700', color: '#3b82f6', marginBottom: '0.6rem', marginTop: 0 },
+  projectDescription: { color: '#666', marginBottom: '1rem', fontSize: '1.2rem' },
   tagsContainer: { display: 'flex', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '1rem' },
-  tag: { fontSize: '1rem', background: 'linear-gradient(to right, #dbeafe, #bfdbfe)', color: '#1e40af', padding: '0.25rem 0.75rem', borderRadius: '9999px' },
+  tag: { fontSize: '0.85rem', background: 'linear-gradient(to right, #dbeafe, #bfdbfe)', color: '#1e40af', padding: '0.25rem 0.75rem', borderRadius: '9999px' },
   cardFooter: { display: 'flex', justifyContent: 'flex-end', marginTop: '0.75rem' },
-  cardPeriod: { fontSize: '2.5rem', color: '#0B0D63', fontWeight: '700' },
+  cardPeriod: { fontSize: '1.5rem', color: '#0B0D63', fontWeight: '700' },
 
   skillsGrid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '2rem' },
   skillCard: { backgroundColor: '#fff', padding: '2rem', borderRadius: '16px', boxShadow: '0 4px 12px rgba(11,13,99,0.1)' },
-  skillCategory: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#0B0D63' },
+  skillCategory: { fontSize: '1.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#0B0D63' },
   skillList: { listStyle: 'none', padding: 0, margin: 0 },
-  skillItem: { padding: '0.5rem 0', display: 'flex', alignItems: 'center', color: '#555', fontSize: '2rem' },
-  skillBullet: { display: 'inline-block', width: '10px', height: '10px', borderRadius: '50%', backgroundColor: '#3b82f6', marginRight: '0.75rem', flexShrink: 0 },
+  skillItem: { padding: '0.5rem 0', display: 'flex', alignItems: 'center', color: '#555', fontSize: '1.2rem' },
+  skillBullet: { display: 'inline-block', width: '8px', height: '8px', borderRadius: '50%', backgroundColor: '#3b82f6', marginRight: '0.75rem', flexShrink: 0 },
 
   contactSection: { padding: '5rem 2rem', background: 'linear-gradient(135deg, #dbeafe, #eff6ff, #f0f9ff)' },
   contactCard: { backgroundColor: '#fff', padding: '2rem', borderRadius: '12px', boxShadow: '0 8px 16px rgba(11,13,99,0.1)' },
   contactInfo: { display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' },
-  contactLink: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#555', textDecoration: 'none', transition: 'color 0.3s', fontSize: '2rem' },
-  contactItem: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#555', fontSize: '2rem' },
+  contactLink: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#555', textDecoration: 'none', transition: 'color 0.3s', fontSize: '1.2rem' },
+  contactLinkHighlight: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#2563eb', textDecoration: 'underline', fontWeight: '600', transition: 'color 0.3s', fontSize: '1.2rem' },
+  contactItem: { display: 'flex', alignItems: 'center', gap: '0.75rem', color: '#555', fontSize: '1.2rem' },
   formContainer: { display: 'flex', flexDirection: 'column', gap: '1rem' },
-  input: { width: '100%', padding: '0.75rem 1rem', border: '1px solid #ddd', borderRadius: '8px', fontSize: '1.25rem', outline: 'none', transition: 'border-color 0.3s', boxSizing: 'border-box' },
+  input: { width: '100%', padding: '0.75rem 1rem', border: '1px solid #ddd', borderRadius: '8px', fontSize: '1rem', outline: 'none', transition: 'border-color 0.3s', boxSizing: 'border-box' },
   textarea: { resize: 'vertical', fontFamily: 'inherit' },
-  submitButton: { width: '100%', background: 'linear-gradient(to right, #0B0D63, #3b82f6, #60a5fa)', color: '#fff', padding: '0.75rem', borderRadius: '8px', fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1.25rem', transition: 'opacity 0.3s' },
-  successMessage: { color: '#10b981', textAlign: 'center', fontSize: '1.25rem' },
-  errorMessage: { color: '#ef4444', textAlign: 'center', fontSize: '1.25rem' },
+  submitButton: { width: '100%', background: 'linear-gradient(to right, #0B0D63, #3b82f6, #60a5fa)', color: '#fff', padding: '0.75rem', borderRadius: '8px', fontWeight: '600', border: 'none', cursor: 'pointer', fontSize: '1.1rem', transition: 'opacity 0.3s' },
+  successMessage: { color: '#10b981', textAlign: 'center', fontSize: '1rem' },
+  errorMessage: { color: '#ef4444', textAlign: 'center', fontSize: '1rem' },
 
   footer: { backgroundColor: '#0B0D63', color: '#fff', padding: '2rem' },
   footerContainer: { maxWidth: '1200px', margin: '0 auto', textAlign: 'center' },
@@ -717,9 +720,9 @@ const styles = {
   carouselDotActive: { background: '#3b82f6' },
   modalClose: { position: 'absolute', top: '1rem', right: '1rem', background: 'none', border: 'none', color: '#666', cursor: 'pointer', zIndex: 10 },
   modalTitle: { fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '0.5rem', background: 'linear-gradient(to right, #0B0D63, #3b82f6, #60a5fa)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', paddingRight: '2rem' },
-  modalOrg: { fontSize: '2rem', fontWeight: '700', color: '#3b82f6', margin: '0 0 1rem', paddingRight: '2rem' },
-  modalText: { color: '#555', fontSize: '2rem', lineHeight: '1.75', marginTop: '1.5rem' },
-  modalLink: { display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.5rem', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '2.5rem' },
+  modalOrg: { fontSize: '1.2rem', fontWeight: '700', color: '#3b82f6', margin: '0 0 1rem', paddingRight: '2rem' },
+  modalText: { color: '#555', fontSize: '1.2rem', lineHeight: '1.75', marginTop: '1.5rem' },
+  modalLink: { display: 'inline-flex', alignItems: 'center', gap: '0.5rem', marginTop: '1.5rem', color: '#3b82f6', fontWeight: '700', textDecoration: 'underline', fontSize: '1.25rem' },
 
   fullscreenOverlay: { position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.95)', zIndex: 3000, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'zoom-out' },
   fullscreenMedia: { maxWidth: '95vw', maxHeight: '95vh', objectFit: 'contain', display: 'block' },
