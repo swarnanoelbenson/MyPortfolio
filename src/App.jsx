@@ -704,7 +704,7 @@ const styles = {
   footer: { backgroundColor: '#0B0D63', color: '#fff', padding: '2rem' },
   footerContainer: { maxWidth: '1200px', margin: '0 auto', textAlign: 'center' },
   footerLinks: { display: 'flex', justifyContent: 'center', gap: '1.5rem', marginBottom: '1rem', flexWrap: 'wrap' },
-  footerLink: { background: 'none', border: 'none', color: '#e0e7ff', cursor: 'pointer', fontSize: '1rem', transition: 'color 0.3s' },
+  footerLink: { background: 'none', border: 'none', color: '#e0e7ff', cursor: 'pointer', fontSize: '1rem', transition: 'color 0.3s', fontWeight: '700' },
   footerCopyright: { color: '#bfdbfe', marginBottom: '0.5rem', fontSize: '1rem' },
   footerMade: { fontSize: '0.875rem', color: '#93c5fd' },
 
