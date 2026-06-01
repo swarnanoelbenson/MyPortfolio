@@ -206,9 +206,9 @@ const Portfolio = () => {
   ];
 
   const moreCerts = [
-    { name: "Develop Generative AI Applications: Get Started", issuer: "IBM (Coursera)", date: "Feb. 2026", skills: "LLM Application, Prompt Engineering, LangChain, Generative AI", credentialUrl: "https://www.coursera.org/account/accomplishments/verify/5WC2TTJHXGEB" },
-    { name: "Modern Artificial Intelligence Masterclass", issuer: "Udemy", date: "Jun. 2023", skills: "Machine Learning", credentialUrl: "https://www.udemy.com/certificate/UC-7255245e-186a-468e-9250-6481ae962873/?utm_source=sendgrid.com&utm_medium=email&utm_campaign=email" },
-    { name: "Excel Analytics: Linear Regression Analysis in MS Excel", issuer: "Udemy", date: "Mar. 2023", skills: "Microsoft Excel", credentialUrl: "https://www.udemy.com/certificate/UC-6f056999-f9fa-4f27-8b91-88bf53d26486/?utm_source=sendgrid.com&utm_medium=email&utm_campaign=email" }
+    { name: "Develop Generative AI Applications: Get Started", issuer: "IBM (Coursera)", date: "Feb. 2026", credentialUrl: "https://www.coursera.org/account/accomplishments/verify/5WC2TTJHXGEB" },
+    { name: "Modern Artificial Intelligence Masterclass", issuer: "Udemy", date: "Jun. 2023", credentialUrl: "https://www.udemy.com/certificate/UC-7255245e-186a-468e-9250-6481ae962873/?utm_source=sendgrid.com&utm_medium=email&utm_campaign=email" },
+    { name: "Excel Analytics: Linear Regression Analysis in MS Excel", issuer: "Udemy", date: "Mar. 2023", credentialUrl: "https://www.udemy.com/certificate/UC-6f056999-f9fa-4f27-8b91-88bf53d26486/?utm_source=sendgrid.com&utm_medium=email&utm_campaign=email" }
   ];
 
   const handleSubmit = () => {
